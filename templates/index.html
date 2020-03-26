@@ -1,18 +1,27 @@
 <html> 
-
+    <head>
+    </head>
     <body>
         <h1> Add Cities </h1>
 
-        <form method = "POST" action="/">
+        <form method = "POST" action="/addcity">
             <input type="text", name="name", placeholder="Enter city name">
             <input type="submit" value="submit">
         </form>
 
-        <ul>
-            {% for k,v in cities.items() %}
-                <li> {{v['name']}} </li>
-            {% endfor %}
-        </ul>
+        {% if cities %}
+            <ul>
+                {% for k,v in cities.items() %}
+                    <li> {{v['name']}} </li>
+                    <form action="{{ url_for('deleteCity') }}" method=post class=delete-movie>
+                        <input type=hidden value="{{ k }}"name=city_id />
+                        <input type=submit  value="Delete"/>
+                      </form>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2> No Citites </h2>
+        {% endif %}
     </body> 
 </html> 
      
