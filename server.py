@@ -1,14 +1,21 @@
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request
+from os import path
 app = Flask(__name__)
 
+app.config["DEBUG"] = True
 
-@app.route("/")
+cities = set()
+
+
+@app.route("/", methods =["GET", "POST"])
 def index():
-    return render_template("index.html")
+    if request.method=="POST":
+        name = request.form["name"]
+        cities.add(name)
+        return render_template('index.html', names = cities)
+    return render_template("index.html", names = cities)
 
 
 
 if __name__ == '__main__':
-
     app.run()

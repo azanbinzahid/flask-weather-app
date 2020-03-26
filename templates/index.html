@@ -1,1 +1,19 @@
-<h1> Hello, Python! <h1>
+<html> 
+
+    <body>
+
+        <h1> Add Cities </h1>
+
+        <form method = "POST" action="/">
+            <input type="text", name="name", placeholder="Enter city name">
+            <input type="submit" value="submit">
+        </form>
+
+        <ul>
+            {% for name in names %}
+                <li> {{name}} </li>
+            {% endfor %}
+        </ul>
+    </body> 
+</html> 
+     
