@@ -1,19 +1,44 @@
 from flask import Flask, render_template, request
-from os import path
-app = Flask(__name__)
+import pyrebase
+from config import firebaseAPI
 
+app = Flask(__name__)
 app.config["DEBUG"] = True
 
-cities = set()
+config = {
+    "apiKey" : firebaseAPI,
+    "authDomain": "flask-weather-app-5f470.firebaseapp.com",
+    "storageBucket":"flask-weather-app-5f470.appspot.com",
+    "databaseURL" : "https://flask-weather-app-5f470.firebaseio.com/"
+}
+
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+
+
+# init db
+# data = {
+#     "cities" : [
+#         {"name": "Lahore"},
+#         {"name": "London"},
+#         {"name": "Dehli"},
+#     ]
+# }
+# db.set(data)
 
 
 @app.route("/", methods =["GET", "POST"])
 def index():
     if request.method=="POST":
         name = request.form["name"]
-        cities.add(name)
-        return render_template('index.html', names = cities)
-    return render_template("index.html", names = cities)
+        if name:
+            data = {
+                "name": name
+            }
+            db.child("cities").push(data)
+
+    cities = db.child("cities").get().val()
+    return render_template("index.html", cities = cities)
 
 
 

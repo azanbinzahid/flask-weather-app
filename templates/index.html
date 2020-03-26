@@ -1,7 +1,6 @@
 <html> 
 
     <body>
-
         <h1> Add Cities </h1>
 
         <form method = "POST" action="/">
@@ -10,8 +9,8 @@
         </form>
 
         <ul>
-            {% for name in names %}
-                <li> {{name}} </li>
+            {% for k,v in cities.items() %}
+                <li> {{v['name']}} </li>
             {% endfor %}
         </ul>
     </body> 
